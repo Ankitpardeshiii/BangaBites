@@ -1139,58 +1139,587 @@ button, input, select { font: inherit; }
 
 /* ==========================================================
    RESPONSIVE
+   All rules below are mobile-only overrides.
+   Desktop (≥1024px) is completely untouched.
    ========================================================== */
+
+/* ----------------------------------------------------------
+   TABLET — 1024px and below
+   ---------------------------------------------------------- */
 @media (max-width: 1024px) {
+
+    /* Navbar */
+    .nav-container { padding: 0 28px; }
+
+    /* Hero — hide illustration panel, keep text side */
     .hero-right { display: none; }
-    .editorial-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
+    .hero-left  { max-width: 100%; }
+
+    /* Editorial food culture grid → 2 columns */
+    .editorial-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
     .card-dosa, .card-biryani { grid-row: auto; }
-    .ml-visual-flow { height: auto; display: flex; flex-direction: column; align-items: center; gap: 24px; }
-    .ml-center { position: relative; transform: none; top: auto; left: auto; }
-    .ml-signal { position: relative; top: auto; left: auto; right: auto; bottom: auto; flex-direction: row; width: 100%; max-width: 340px; }
+    .card-coffee { grid-column: span 2; }
+    .card-cafe   { grid-column: span 2; }
+
+    /* How it works — stack vertically */
+    .ml-visual-flow {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+    .ml-center {
+        position: relative;
+        transform: none;
+        top: auto; left: auto;
+        width: 100%;
+        max-width: 380px;
+    }
+    .ml-signal {
+        position: relative;
+        top: auto; left: auto; right: auto; bottom: auto;
+        flex-direction: row;
+        width: 100%;
+        max-width: 380px;
+    }
     .ml-visual-flow::before { display: none; }
+
+    /* About intro — stack */
     .about-intro-inner { flex-direction: column; gap: 60px; }
     .about-intro-visual { width: 100%; height: 360px; }
+
+    /* Pipeline — stack */
     .about-pipeline-inner { flex-direction: column; gap: 48px; }
+    .about-pipeline-text { text-align: center; }
+
+    /* Engine — stack */
     .about-engine-inner { flex-direction: column; gap: 60px; }
     .engine-visual { flex-direction: column; gap: 40px; align-items: center; }
+    .engine-bars { width: 100%; max-width: 480px; }
+
+    /* Results featured card — stack */
     .featured-card { flex-direction: column; }
-    .feat-visual { min-height: 220px; }
-    .feat-content { padding: 40px; }
+    .feat-visual   { min-height: 220px; }
+    .feat-content  { padding: 40px; }
 }
 
+/* ----------------------------------------------------------
+   MOBILE LARGE — 768px and below
+   ---------------------------------------------------------- */
 @media (max-width: 768px) {
-    .nav-container { padding: 0 20px; }
-    .nav-center { gap: 20px; }
-    .nav-center a { font-size: 14px; }
+
+    /* ------ NAVBAR ------ */
+    .navbar { height: 64px; }
+    .nav-container {
+        padding: 0 16px;
+        gap: 12px;
+    }
+    /* Show icon-only logo, hide full logo */
     .nav-logo.desktop-logo { display: none; }
     .nav-logo.mobile-logo  { display: block; }
 
-    .hero { min-height: auto; padding: 100px 20px 60px; }
-    .hero-container { padding: 0; }
-    .search-experience { padding: 60px 20px 80px; }
-    .primary-search-box { flex-direction: column; border-radius: 24px; padding: 16px; gap: 12px; }
+    /* Collapse nav center links — keep but smaller */
+    .nav-center { gap: 16px; }
+    .nav-center a { font-size: 13px; font-weight: 600; }
+
+    /* Location pill — tighter */
+    .nav-location {
+        font-size: 12px;
+        padding: 7px 12px;
+        gap: 5px;
+    }
+    .nav-location i { width: 13px; height: 13px; }
+
+    /* ------ HERO ------ */
+    .hero {
+        min-height: auto;
+        padding-top: 64px; /* match collapsed navbar */
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 60px;
+        align-items: flex-start;
+    }
+    .hero-container {
+        padding: 40px 0 0;
+        flex-direction: column;
+    }
+    .hero-left {
+        max-width: 100%;
+        padding-bottom: 0;
+    }
+    .eyebrow {
+        font-size: 11px;
+        letter-spacing: 1.8px;
+        margin-bottom: 18px;
+    }
+    .hero h1 {
+        font-size: clamp(40px, 10vw, 64px);
+        letter-spacing: -1.5px;
+        margin-bottom: 16px;
+    }
+    .hero-sub { font-size: 22px; }
+    .hero-right { display: none; }
+    .skyline-overlay { height: 60px; }
+
+    /* ------ SEARCH SECTION ------ */
+    .search-experience { padding: 56px 20px 72px; }
+    .search-header { margin-bottom: 40px; }
+    .search-header h2 { letter-spacing: -1px; }
+    .search-header p { font-size: 17px; }
+
+    /* Primary search box — stack vertically */
+    .primary-search-box {
+        flex-direction: column;
+        border-radius: 24px;
+        padding: 16px;
+        gap: 12px;
+        align-items: stretch;
+    }
     .search-icon { display: none; }
-    .primary-search-box input { font-size: 18px; text-align: center; }
-    .mega-btn { width: 100%; height: 56px; font-size: 17px; }
-    .secondary-filters { flex-direction: column; align-items: stretch; }
-    .filter-pill { justify-content: flex-start; }
+    .primary-search-box input {
+        font-size: 18px;
+        font-weight: 500;
+        text-align: left;
+        padding: 4px 8px;
+        width: 100%;
+    }
+    .mega-btn {
+        width: 100%;
+        height: 56px;
+        font-size: 17px;
+        justify-content: center;
+        border-radius: 16px;
+        padding: 0 24px;
+    }
 
-    .food-culture { padding: 80px 20px 180px; }
-    .editorial-grid { grid-template-columns: 1fr; }
-    .card-coffee, .card-cafe { grid-column: 1; }
+    /* Autocomplete — stay inside search box width */
+    .suggestions {
+        left: 0;
+        right: 0;
+        top: calc(100% + 10px);
+        border-radius: 18px;
+    }
+    .suggestion-item { padding: 14px 20px; }
+    .suggestion-item strong { font-size: 16px; }
+    .suggestion-item span   { font-size: 12px; }
 
-    .about-intro, .about-what, .about-pipeline, .about-engine,
-    .about-blr, .about-features, .about-tech, .about-creator, .about-closing {
+    /* Secondary filters — full-width column */
+    .secondary-filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .filter-pill {
+        justify-content: flex-start;
+        border-radius: 16px;
+        padding: 4px 16px 4px 14px;
+        border: 1px solid var(--border);
+    }
+    .filter-pill input,
+    .filter-pill select {
+        width: 100%;
+        min-width: 0;
+        font-size: 16px; /* prevent iOS zoom */
+        height: 48px;
+    }
+
+    /* Popular search chips — allow horizontal scroll without page overflow */
+    .chips-wrapper {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .chips-wrapper::-webkit-scrollbar { display: none; }
+    .chip { flex-shrink: 0; }
+
+    /* ------ FOOD CULTURE ------ */
+    .food-culture { padding: 72px 20px 160px; }
+    .culture-header { margin-bottom: 56px; }
+    .culture-header h2 { letter-spacing: -1.5px; }
+    .culture-header p  { font-size: 17px; }
+
+    .editorial-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 16px;
+    }
+    .card-coffee  { grid-column: span 2; }
+    .card-dosa    { grid-column: span 1; grid-row: auto; }
+    .card-biryani { grid-column: span 1; grid-row: auto; }
+    .card-cafe    { grid-column: span 2; }
+    .ed-card { border-radius: 28px; padding: 28px; }
+    .ed-content h3 { font-size: 22px; }
+    .ed-content p  { font-size: 15px; }
+    .ed-icon i { width: 44px; height: 44px; }
+
+    /* ------ HOW IT WORKS (DARK) ------ */
+    .dark-section { padding: 80px 20px; }
+    .how-header { margin-bottom: 60px; }
+    .how-header p { font-size: 17px; }
+    .ml-center { padding: 32px 24px; width: 100%; max-width: 100%; }
+    .ml-target span { font-size: 22px; }
+    .ml-restaurant-card h4 { font-size: 18px; }
+    .ml-signal { max-width: 100%; padding: 16px; }
+
+    /* ------ RESULTS SECTION ------ */
+    .results-section { padding: 56px 20px; }
+    .results-header { margin-bottom: 48px; }
+    .results-header h2 { letter-spacing: -1px; }
+    .results-header p  { font-size: 16px; }
+
+    /* Featured card — stack */
+    .featured-card    { flex-direction: column; border-radius: 28px; }
+    .feat-visual      { min-height: 180px; }
+    .feat-icon-huge   { width: 100px; height: 100px; }
+    .feat-number      { font-size: 80px; }
+    .feat-content     { padding: 28px 24px 32px; }
+    .feat-match       { font-size: 15px; padding: 8px 18px; margin-bottom: 18px; }
+    .feat-title       { font-size: 28px; margin-bottom: 16px; }
+    .feat-meta        { font-size: 15px; gap: 14px; }
+    .feat-reasons     { gap: 10px; margin-bottom: 28px; }
+    .feat-btn {
+        width: 100%;
+        justify-content: center;
+        height: 52px;
+        font-size: 15px;
+        align-self: stretch;
+    }
+
+    /* Results grid — single column */
+    .results-grid { grid-template-columns: 1fr; gap: 20px; }
+    .other-results-header h3 { font-size: 22px; margin-bottom: 24px; }
+
+    /* Rec cards */
+    .rec-card { padding: 28px 24px; border-radius: 22px; }
+    .rec-title { font-size: 22px; }
+    .rec-top { align-items: flex-start; gap: 12px; }
+    .score-ring { width: 60px; height: 60px; flex-shrink: 0; }
+    .score-ring::after { width: 46px; height: 46px; }
+    .score-ring span { font-size: 13px; }
+    .rec-stats { gap: 8px; margin-bottom: 20px; }
+    .rec-stat { font-size: 12px; padding: 6px 12px; }
+    .rec-zomato { height: 48px; font-size: 14px; }
+    .rec-location { overflow-wrap: anywhere; }
+
+    /* Empty state */
+    .empty-state { padding: 56px 24px; }
+    .empty-state h3 { font-size: 22px; }
+    .empty-state p  { font-size: 15px; }
+
+    /* ------ ABOUT SECTION ------ */
+    /* Shared padding */
+    .about-intro,
+    .about-what,
+    .about-pipeline,
+    .about-engine,
+    .about-blr,
+    .about-features,
+    .about-tech,
+    .about-creator,
+    .about-closing {
         padding-left: 20px;
         padding-right: 20px;
     }
-    .about-intro { padding-top: 80px; padding-bottom: 80px; }
-    .creator-card { padding: 44px 24px; }
-    .results-section { padding: 60px 20px; }
-    .results-grid { grid-template-columns: 1fr; }
-    .feat-content { padding: 28px 20px; }
-    .feat-title { font-size: 30px; }
-    .about-closing { padding: 100px 20px; }
+
+    /* About intro */
+    .about-intro { padding-top: 72px; padding-bottom: 72px; }
+    .about-intro-inner { flex-direction: column; gap: 48px; }
+    .about-intro-visual { height: 300px; width: 100%; }
+    .about-intro-text h2 { font-size: clamp(28px, 7vw, 44px); letter-spacing: -1px; }
+    .about-intro-text p  { font-size: 16px; }
+
+    /* About what */
+    .about-what { padding-top: 72px; padding-bottom: 72px; }
+    .about-what-text { font-size: 16px; }
+    .about-signals-grid { grid-template-columns: 1fr; gap: 16px; }
+    .about-signal-card { padding: 28px 24px; }
+    .about-signal-card h4 { font-size: 18px; }
+
+    /* Pipeline */
+    .about-pipeline { padding-top: 72px; padding-bottom: 72px; }
+    .about-pipeline-inner { flex-direction: column; gap: 36px; }
+    .about-pipeline-text { text-align: center; }
+    .about-pipeline-text h2 { font-size: clamp(26px, 6vw, 44px); }
+    .pipe-step { padding: 12px 20px; font-size: 14px; }
+    .pipe-num  { font-size: 10px; }
+
+    /* Engine dark */
+    .about-engine { padding-top: 72px; padding-bottom: 72px; }
+    .about-engine-inner { flex-direction: column; gap: 48px; }
+    .about-engine-text h2 { font-size: clamp(26px, 6vw, 44px); }
+    .engine-visual { flex-direction: column; gap: 32px; align-items: stretch; }
+    .engine-score-card { padding: 36px 28px; align-self: center; }
+    .engine-bars { width: 100%; max-width: 100%; }
+    .ebar-label { font-size: 14px; }
+
+    /* Why Bengaluru */
+    .about-blr { padding-top: 72px; padding-bottom: 72px; }
+    .about-blr-inner > p { font-size: 16px; margin-bottom: 40px; }
+    .blr-food-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        justify-items: center;
+    }
+    .blr-food-card { width: 100%; padding: 24px 16px; }
+    .blr-food-icon { width: 52px; height: 52px; }
+    .blr-food-card span { font-size: 14px; }
+
+    /* Features grid */
+    .about-features { padding-top: 72px; padding-bottom: 72px; }
+    .features-grid { grid-template-columns: 1fr; gap: 16px; }
+    .feature-card { padding: 28px 24px; border-radius: 22px; }
+    .feature-card h4 { font-size: 18px; }
+
+    /* Technology pills */
+    .about-tech { padding-top: 60px; padding-bottom: 60px; }
+    .tech-pill { font-size: 14px; padding: 10px 20px; }
+
+    /* Creator */
+    .about-creator { padding-top: 72px; padding-bottom: 72px; }
+    .creator-card  { padding: 44px 24px; border-radius: 28px; }
+    .creator-card h2 { font-size: clamp(22px, 5vw, 30px); }
+    .creator-role { font-size: 12px; letter-spacing: 0.5px; }
+    .creator-bio p { font-size: 16px; }
+    .creator-links { gap: 12px; }
+    .creator-btn { height: 48px; padding: 0 24px; font-size: 15px; }
+
+    /* Closing quote */
+    .about-closing { padding: 96px 20px; }
     .closing-quote-mark { font-size: 100px; }
-    .site-footer { padding: 60px 20px; }
+    .about-closing h2 { font-size: clamp(28px, 7vw, 48px); }
+    .about-closing p  { font-size: 18px; }
+
+    /* ------ FOOTER ------ */
+    .site-footer { padding: 56px 20px; }
+    .footer-stack { font-size: 12px; word-break: break-word; }
+    .footer-social { gap: 20px; flex-wrap: wrap; }
+}
+
+/* ----------------------------------------------------------
+   MOBILE MEDIUM — 430px and below
+   ---------------------------------------------------------- */
+@media (max-width: 430px) {
+
+    /* Navbar — hide nav links when very narrow */
+    .nav-center { display: none; }
+    .nav-container { justify-content: space-between; }
+
+    /* Hero */
+    .hero {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 48px;
+    }
+    .hero h1 {
+        font-size: clamp(36px, 11vw, 56px);
+        letter-spacing: -1px;
+    }
+    .hero-sub { font-size: 20px; }
+
+    /* Search */
+    .search-experience { padding: 48px 16px 64px; }
+    .search-header h2  { font-size: clamp(26px, 8vw, 40px); letter-spacing: -0.8px; }
+    .search-header p   { font-size: 15px; }
+
+    /* Filter pills */
+    .filter-pill input,
+    .filter-pill select { font-size: 16px; }
+
+    /* Food culture — 2-column mini grid */
+    .food-culture { padding: 60px 16px 140px; }
+    .editorial-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .card-coffee  { grid-column: span 2; }
+    .card-cafe    { grid-column: span 2; flex-direction: column; }
+    .card-dosa    { grid-column: span 1; }
+    .card-biryani { grid-column: span 1; }
+    .ed-card      { border-radius: 22px; padding: 22px 18px; }
+    .ed-content h3 { font-size: 18px; }
+    .ed-content p  { font-size: 14px; }
+    .ed-icon i     { width: 36px; height: 36px; }
+
+    /* How it works */
+    .dark-section { padding: 64px 16px; }
+
+    /* Results */
+    .results-section { padding: 48px 16px; }
+    .feat-content { padding: 24px 18px 28px; }
+    .feat-title   { font-size: 24px; }
+    .rec-card     { padding: 22px 18px; }
+    .rec-title    { font-size: 20px; }
+
+    /* About shared padding */
+    .about-intro,
+    .about-what,
+    .about-pipeline,
+    .about-engine,
+    .about-blr,
+    .about-features,
+    .about-tech,
+    .about-creator,
+    .about-closing {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .about-intro { padding-top: 60px; padding-bottom: 60px; }
+    .about-intro-visual { height: 260px; }
+    .about-central-icon { width: 130px; height: 130px; }
+    .about-central-icon i { width: 60px; height: 60px; }
+
+    /* Bengaluru food grid — 2 cols on small phones */
+    .blr-food-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    /* 5th card (cafe) centered */
+    .blr-cafe { grid-column: span 2; max-width: 160px; margin: 0 auto; width: 100%; }
+
+    /* Creator */
+    .creator-card  { padding: 36px 16px; }
+    .creator-links { flex-direction: column; align-items: stretch; }
+    .creator-btn   { justify-content: center; }
+
+    /* Closing */
+    .about-closing { padding: 80px 16px; }
+    .closing-quote-mark { font-size: 80px; }
+
+    /* Footer */
+    .site-footer { padding: 48px 16px; }
+    .footer-social { gap: 16px; }
+}
+
+/* ----------------------------------------------------------
+   MOBILE SMALL — 375px and below
+   ---------------------------------------------------------- */
+@media (max-width: 375px) {
+
+    /* Hero */
+    .hero h1 { font-size: clamp(32px, 10vw, 48px); }
+    .hero-sub { font-size: 18px; }
+
+    /* Navbar location pill — shorten */
+    .nav-location span { display: none; }
+
+    /* Search */
+    .search-experience { padding: 40px 14px 56px; }
+    .mega-btn { height: 52px; font-size: 16px; }
+
+    /* Food culture — single column on tiny screens */
+    .editorial-grid { grid-template-columns: 1fr; }
+    .card-coffee  { grid-column: 1; }
+    .card-dosa    { grid-column: 1; }
+    .card-biryani { grid-column: 1; }
+    .card-cafe    { grid-column: 1; flex-direction: row; }
+
+    /* Rec cards */
+    .rec-title { font-size: 18px; }
+    .score-ring { width: 54px; height: 54px; }
+    .score-ring::after { width: 40px; height: 40px; }
+    .score-ring span { font-size: 12px; }
+
+    /* About */
+    .about-intro,
+    .about-what,
+    .about-pipeline,
+    .about-engine,
+    .about-blr,
+    .about-features,
+    .about-tech,
+    .about-creator,
+    .about-closing {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+    .creator-card { padding: 32px 14px; }
+    .creator-card h2 { font-size: 20px; }
+
+    /* Footer */
+    .footer-stack { display: none; } /* too long on tiny screens */
+}
+
+/* ----------------------------------------------------------
+   MOBILE XSMALL — 320px and below
+   ---------------------------------------------------------- */
+@media (max-width: 320px) {
+    .hero h1 { font-size: 30px; }
+    .hero-sub { font-size: 17px; }
+    .search-header h2 { font-size: 24px; }
+    .mega-btn { font-size: 15px; height: 50px; }
+    .filter-pill input,
+    .filter-pill select { font-size: 15px; }
+    .feat-title { font-size: 21px; }
+    .rec-title { font-size: 17px; }
+    .creator-card h2 { font-size: 18px; }
+    .about-section-heading { font-size: clamp(22px, 7vw, 32px); }
+    .closing-quote-mark { font-size: 64px; }
+}
+
+/* ----------------------------------------------------------
+   GLOBAL OVERFLOW PREVENTION
+   These apply at all sizes but only bite on mobile content.
+   ---------------------------------------------------------- */
+img, svg, video, iframe, embed {
+    max-width: 100%;
+}
+
+.hero-container,
+.search-experience,
+.immersive-form,
+.primary-search-wrapper,
+.primary-search-box,
+.secondary-filters,
+.results-container,
+.results-grid,
+.featured-card,
+.about-intro-inner,
+.about-engine-inner,
+.about-pipeline-inner,
+.about-blr-inner,
+.features-grid,
+.about-signals-grid,
+.footer-inner {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Prevent very long text strings (restaurant names, cuisines) from overflowing cards */
+.rec-title,
+.rec-location,
+.rec-stat,
+.feat-title,
+.feat-meta {
+    overflow-wrap: anywhere;
+}
+
+/* Autocomplete box: never wider than the containing search box */
+.suggestions {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Touch-target minimum for all interactive elements */
+@media (max-width: 1024px) {
+    .chip,
+    .creator-btn,
+    .feat-btn,
+    .rec-zomato,
+    .mega-btn,
+    .filter-pill input,
+    .filter-pill select,
+    .suggestion-item,
+    .footer-social a,
+    .nav-center a {
+        min-height: 44px;
+    }
 }
