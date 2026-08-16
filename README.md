@@ -12,9 +12,7 @@ The project is designed specifically around the Bengaluru restaurant ecosystem a
 
 ## 🌐 Live Demo
 
-🚧 **Coming Soon**
-
-The application is currently being deployed.
+https://bangabites.ankitpardeshi.xyz/
 
 ---
 
