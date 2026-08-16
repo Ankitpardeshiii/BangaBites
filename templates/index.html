@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BangaBites - Smart Restaurant Discovery for Bengaluru.">
+    <meta name="theme-color" content="#E23744">
+    <title>BangaBites | Smart Restaurant Discovery for Bengaluru</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='assets/bangabites-icon.svg') }}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- =============================================
+     NAVBAR
+     ============================================= -->
+<nav class="navbar" id="top">
+    <div class="nav-container">
+        <div class="nav-left">
+            <a href="#top" class="logo-link">
+                <img src="{{ url_for('static', filename='assets/bangabites-logo.svg') }}" alt="BangaBites" class="nav-logo desktop-logo">
+                <img src="{{ url_for('static', filename='assets/bangabites-icon.svg') }}" alt="BangaBites" class="nav-logo mobile-logo">
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="#search">Discover</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#about">About</a>
+        </div>
+        <div class="nav-right">
+            <span class="nav-location"><i data-lucide="map-pin"></i> Bengaluru</span>
+        </div>
+    </div>
+</nav>
+
+<!-- =============================================
+     HERO
+     ============================================= -->
+<header class="hero">
+    <div class="hero-bg-shape"></div>
+    <div class="hero-container">
+        <div class="hero-left">
+            <span class="eyebrow">BANGALORE'S SMART FOOD DISCOVERY</span>
+            <h1>Bangalore has<br><span>a lot to eat.</span></h1>
+            <p class="hero-sub">We'll help you pick.</p>
+        </div>
+        <div class="hero-right">
+            <div class="collage-wrapper">
+                <div class="floating-badge badge-1"><i data-lucide="star" class="star-icon"></i> 4.7 Rating</div>
+                <div class="floating-badge badge-2"><i data-lucide="indian-rupee" class="rupee-icon"></i> 450 for two</div>
+                <div class="floating-badge badge-3"><i data-lucide="map-pin"></i> Banashankari</div>
+                <div class="floating-badge badge-4"><i data-lucide="target" class="match-icon"></i> 92% Match</div>
+                <div class="deco-circle circle-1"></div>
+                <div class="deco-circle circle-2"></div>
+                <div class="food-graphic graphic-dosa"><i data-lucide="utensils-crossed"></i></div>
+                <div class="food-graphic graphic-coffee"><i data-lucide="coffee"></i></div>
+                <div class="food-graphic graphic-pizza"><i data-lucide="pizza"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="skyline-overlay"></div>
+</header>
+
+<!-- =============================================
+     SEARCH EXPERIENCE
+     ============================================= -->
+<section id="search" class="search-experience">
+    <div class="search-bg-elements">
+        <div class="bg-circle-1"></div>
+        <div class="bg-circle-2"></div>
+    </div>
+
+    <div class="search-header">
+        <h2>What are you in the mood for?</h2>
+        <p>Give us one restaurant you love. We'll find places you'll probably love too.</p>
+    </div>
+
+    <form id="recommendationForm" class="immersive-form" autocomplete="off">
+        <!-- PRIMARY SEARCH BAR -->
+        <div class="primary-search-wrapper">
+            <div class="primary-search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="restaurant" name="restaurant"
+                       placeholder="Search a restaurant you love (e.g. Jalsa, Toit...)"
+                       autocomplete="off" required>
+                <button type="submit" id="recommendButton" class="mega-btn">
+                    <span id="buttonText">Find My Restaurants</span>
+                    <span id="loader" class="loader hidden"></span>
+                </button>
+                <div id="restaurantSuggestions" class="suggestions hidden"></div>
+            </div>
+        </div>
+
+        <!-- SECONDARY FILTERS -->
+        <div class="secondary-filters">
+            <div class="filter-pill">
+                <i data-lucide="map-pin"></i>
+                <input type="text" id="location" name="location"
+                       placeholder="Location (e.g. Indiranagar)" autocomplete="off">
+            </div>
+            <div class="filter-pill">
+                <i data-lucide="star"></i>
+                <select id="min_rating" name="min_rating">
+                    <option value="">Any Rating</option>
+                    <option value="3.0">3.0+ Stars</option>
+                    <option value="3.5">3.5+ Stars</option>
+                    <option value="4.0">4.0+ Stars</option>
+                    <option value="4.5">4.5+ Stars</option>
+                </select>
+            </div>
+            <div class="filter-pill">
+                <i data-lucide="indian-rupee"></i>
+                <input type="number" id="max_cost" name="max_cost"
+                       placeholder="Budget (₹)" min="0" step="50" autocomplete="off">
+            </div>
+            <div class="filter-pill">
+                <i data-lucide="users"></i>
+                <select id="top_n" name="top_n">
+                    <option value="5">5 results</option>
+                    <option value="10" selected>10 results</option>
+                    <option value="15">15 results</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ERROR MESSAGE -->
+        <div id="errorMessage" class="error-message hidden" role="alert"></div>
+
+        <!-- POPULAR SEARCHES -->
+        <div class="popular-searches">
+            <span class="popular-label">People are searching for:</span>
+            <div class="chips-wrapper">
+                <button type="button" class="chip" onclick="setRestaurant('Jalsa')">Jalsa</button>
+                <button type="button" class="chip" onclick="setRestaurant('Toit')">Toit</button>
+                <button type="button" class="chip" onclick="setRestaurant('Truffles')">Truffles</button>
+                <button type="button" class="chip" onclick="setRestaurant('Meghana Foods')">Meghana Foods</button>
+                <button type="button" class="chip" onclick="setRestaurant('Rameshwaram Cafe')">Rameshwaram Cafe</button>
+                <button type="button" class="chip" onclick="setRestaurant('Vidyarthi Bhavan')">Vidyarthi Bhavan</button>
+                <button type="button" class="chip" onclick="setRestaurant('Onesta')">Onesta</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+<!-- =============================================
+     RESULTS SECTION
+     ============================================= -->
+<section id="resultsSection" class="results-section hidden">
+    <div class="results-header">
+        <h2>Your Bengaluru shortlist</h2>
+        <p id="resultsCount">Restaurants we think you'll love.</p>
+    </div>
+    <div class="results-container">
+        <div id="featuredResult" class="featured-result"></div>
+        <div class="other-results-header">
+            <h3>More places worth trying</h3>
+        </div>
+        <div id="resultsContainer" class="results-grid"></div>
+    </div>
+</section>
+
+<!-- =============================================
+     BENGALURU FOOD CULTURE
+     ============================================= -->
+<section class="food-culture">
+    <div class="culture-header">
+        <h2>One city.<br>A thousand cravings.</h2>
+        <p>From filter coffee before work to biryani after midnight.</p>
+    </div>
+    <div class="editorial-grid">
+        <div class="ed-card card-coffee">
+            <div class="ed-icon"><i data-lucide="coffee"></i></div>
+            <div class="ed-content">
+                <h3>FILTER COFFEE</h3>
+                <p>Slow mornings.<br>Strong coffee.</p>
+            </div>
+        </div>
+        <div class="ed-card card-dosa">
+            <div class="ed-content">
+                <h3>DOSA</h3>
+                <p>Crispy.<br>Golden.<br>Iconic.</p>
+            </div>
+            <div class="ed-icon"><i data-lucide="utensils"></i></div>
+        </div>
+        <div class="ed-card card-biryani">
+            <div class="ed-content">
+                <h3>BIRYANI</h3>
+                <p>Because Bangalore<br>loves biryani too.</p>
+            </div>
+            <div class="ed-icon"><i data-lucide="flame"></i></div>
+        </div>
+        <div class="ed-card card-cafe">
+            <div class="ed-icon"><i data-lucide="laptop"></i></div>
+            <div class="ed-content">
+                <h3>CAFÉS</h3>
+                <p>Work.<br>Chill.<br>Repeat.</p>
+            </div>
+        </div>
+    </div>
+    <div class="city-skyline-divider"></div>
+</section>
+
+<!-- =============================================
+     HOW BANGABITES THINKS (DARK)
+     ============================================= -->
+<section id="how-it-works" class="how-it-works dark-section">
+    <div class="how-header">
+        <h2>Not random recommendations.</h2>
+        <p>BangaBites combines multiple signals to find restaurants that actually fit your preferences.</p>
+    </div>
+    <div class="ml-visual-flow">
+        <div class="ml-center">
+            <div class="ml-target">
+                <i data-lucide="target" class="huge-target"></i>
+                <span>83% MATCH</span>
+            </div>
+            <div class="ml-restaurant-card">
+                <h4>Hara Fine Dine</h4>
+                <p>North Indian</p>
+                <p>Banashankari</p>
+                <p>⭐ 4.0</p>
+            </div>
+        </div>
+        <div class="ml-signal signal-1"><i data-lucide="activity"></i><span>SIMILARITY</span></div>
+        <div class="ml-signal signal-2"><i data-lucide="trending-up"></i><span>POPULARITY</span></div>
+        <div class="ml-signal signal-3"><i data-lucide="star"></i><span>RATING</span></div>
+        <div class="ml-signal signal-4"><i data-lucide="wallet"></i><span>BUDGET</span></div>
+    </div>
+</section>
+
+<!-- =============================================
+     ABOUT BANGABITES  ← single-page section
+     ============================================= -->
+<section id="about" class="about-section">
+
+    <!-- ABOUT INTRO -->
+    <div class="about-intro">
+        <div class="about-intro-inner">
+            <div class="about-intro-text">
+                <span class="eyebrow">ABOUT BANGABITES</span>
+                <h2>More than recommendations.<br>A smarter way to explore Bengaluru.</h2>
+                <p>BangaBites is an intelligent restaurant recommendation system built to help food lovers discover restaurants based on what they already enjoy.</p>
+                <p>BangaBites combines restaurant similarity, ratings, popularity, location and budget preferences to create personalized restaurant recommendations.</p>
+            </div>
+            <div class="about-intro-visual">
+                <div class="about-collage">
+                    <div class="floating-badge badge-1"><i data-lucide="coffee" style="color:#8B4513"></i> Filter Coffee</div>
+                    <div class="floating-badge badge-2"><i data-lucide="map-pin" style="color:#E23744"></i> Koramangala</div>
+                    <div class="floating-badge badge-3"><i data-lucide="flame" style="color:#FF8A00"></i> Biryani</div>
+                    <div class="floating-badge badge-4"><i data-lucide="utensils" style="color:#111827"></i> Dosa</div>
+                    <div class="about-central-icon">
+                        <i data-lucide="map"></i>
+                    </div>
+                    <div class="deco-circle circle-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHAT IS BANGABITES -->
+    <div class="about-what">
+        <h2 class="about-section-heading">What is BangaBites?</h2>
+        <div class="about-what-text">
+            <p>BangaBites is a machine-learning based restaurant recommendation project built around Bengaluru's diverse food scene. It takes a restaurant a user already likes and identifies other restaurants with similar characteristics.</p>
+            <p>The recommendation system combines multiple signals instead of relying only on ratings.</p>
+        </div>
+        <div class="about-signals-grid">
+            <div class="about-signal-card">
+                <div class="signal-icon"><i data-lucide="utensils-crossed"></i></div>
+                <h4>Cuisine Similarity</h4>
+                <p>Matches restaurants by food type and preparation style.</p>
+            </div>
+            <div class="about-signal-card">
+                <div class="signal-icon"><i data-lucide="star"></i></div>
+                <h4>Rating Quality</h4>
+                <p>Uses Bayesian-weighted ratings rather than raw scores.</p>
+            </div>
+            <div class="about-signal-card">
+                <div class="signal-icon"><i data-lucide="map-pin"></i></div>
+                <h4>Location</h4>
+                <p>Filters and boosts restaurants in your preferred Bengaluru locality.</p>
+            </div>
+            <div class="about-signal-card">
+                <div class="signal-icon"><i data-lucide="trending-up"></i></div>
+                <h4>Popularity</h4>
+                <p>Considers vote counts and overall dining activity.</p>
+            </div>
+            <div class="about-signal-card">
+                <div class="signal-icon"><i data-lucide="indian-rupee"></i></div>
+                <h4>Budget</h4>
+                <p>Scores restaurants that fit your cost-for-two preference.</p>
+            </div>
+            <div class="about-signal-card signal-primary">
+                <div class="signal-icon"><i data-lucide="target"></i></div>
+                <h4>Recommendation Score</h4>
+                <p>A combined final score used to rank your shortlist.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="about-pipeline">
+        <div class="about-pipeline-inner">
+            <div class="about-pipeline-text">
+                <h2>Behind the Bites</h2>
+                <p>How BangaBites turns restaurant data into recommendations.</p>
+            </div>
+            <div class="pipeline-steps">
+                <div class="pipe-step"><span class="pipe-num">01</span><span>Restaurant Data</span></div>
+                <div class="pipe-arrow"><i data-lucide="arrow-down"></i></div>
+                <div class="pipe-step"><span class="pipe-num">02</span><span>Data Cleaning &amp; Preparation</span></div>
+                <div class="pipe-arrow"><i data-lucide="arrow-down"></i></div>
+                <div class="pipe-step"><span class="pipe-num">03</span><span>TF-IDF Feature Representation</span></div>
+                <div class="pipe-arrow"><i data-lucide="arrow-down"></i></div>
+                <div class="pipe-step"><span class="pipe-num">04</span><span>Cosine Similarity</span></div>
+                <div class="pipe-arrow"><i data-lucide="arrow-down"></i></div>
+                <div class="pipe-step"><span class="pipe-num">05</span><span>Weighted Rating</span></div>
+                <div class="pipe-arrow"><i data-lucide="arrow-down"></i></div>
+                <div class="pipe-step"><span class="pipe-num">06</span><span>Popularity + Price Signals</span></div>
+                <div class="pipe-arrow"><i data-lucide="arrow-down"></i></div>
+                <div class="pipe-step pipe-step-final"><span class="pipe-num">07</span><span>Personalized Recommendations</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENGINE (DARK) -->
+    <div class="about-engine">
+        <div class="about-engine-inner">
+            <div class="about-engine-text">
+                <h2>Not just highly rated.<br>Highly relevant.</h2>
+                <p>BangaBites does not simply return the restaurants with the highest ratings. It combines multiple signals into a final recommendation score.</p>
+            </div>
+            <div class="engine-visual">
+                <div class="engine-score-card">
+                    <p class="engine-label">BANGABITES SCORE</p>
+                    <div class="engine-ring">
+                        <span class="engine-pct">81%</span>
+                        <span class="engine-match">MATCH</span>
+                    </div>
+                </div>
+                <div class="engine-bars">
+                    <div class="engine-bar-row">
+                        <div class="ebar-label"><span>Similarity</span><span class="ebar-pct" style="color:var(--primary)">50%</span></div>
+                        <div class="ebar-track"><div class="ebar-fill" style="width:50%; background:var(--primary)"></div></div>
+                    </div>
+                    <div class="engine-bar-row">
+                        <div class="ebar-label"><span>Weighted Rating</span><span class="ebar-pct" style="color:var(--accent-orange)">30%</span></div>
+                        <div class="ebar-track"><div class="ebar-fill" style="width:30%; background:var(--accent-orange)"></div></div>
+                    </div>
+                    <div class="engine-bar-row">
+                        <div class="ebar-label"><span>Popularity</span><span class="ebar-pct" style="color:#10B981">10%</span></div>
+                        <div class="ebar-track"><div class="ebar-fill" style="width:10%; background:#10B981"></div></div>
+                    </div>
+                    <div class="engine-bar-row">
+                        <div class="ebar-label"><span>Price</span><span class="ebar-pct" style="color:#60A5FA">10%</span></div>
+                        <div class="ebar-track"><div class="ebar-fill" style="width:10%; background:#60A5FA"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHY BENGALURU -->
+    <div class="about-blr">
+        <div class="about-blr-inner">
+            <h2>Built for a city that loves food.</h2>
+            <p>Bengaluru is more than a technology city. It is a city of filter coffee mornings, dosa breakfasts, café evenings, biryani nights and endless food discoveries.</p>
+            <div class="blr-food-grid">
+                <div class="blr-food-card blr-coffee">
+                    <div class="blr-food-icon"><i data-lucide="coffee"></i></div>
+                    <span>Filter Coffee</span>
+                    <small>Every morning ritual</small>
+                </div>
+                <div class="blr-food-card blr-dosa">
+                    <div class="blr-food-icon"><i data-lucide="utensils-crossed"></i></div>
+                    <span>Dosa</span>
+                    <small>Crispy &amp; golden</small>
+                </div>
+                <div class="blr-food-card blr-biryani">
+                    <div class="blr-food-icon"><i data-lucide="flame"></i></div>
+                    <span>Biryani</span>
+                    <small>Late night favourite</small>
+                </div>
+                <div class="blr-food-card blr-pizza">
+                    <div class="blr-food-icon"><i data-lucide="pizza"></i></div>
+                    <span>Pizza</span>
+                    <small>The city loves it</small>
+                </div>
+                <div class="blr-food-card blr-cafe">
+                    <div class="blr-food-icon"><i data-lucide="laptop"></i></div>
+                    <span>Cafés</span>
+                    <small>Work &amp; chill</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="about-features">
+        <h2 class="about-section-heading">What BangaBites can do</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="search"></i></div>
+                <h4>Restaurant Search</h4>
+                <p>Find any restaurant from the Bengaluru dataset to use as a starting point.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="sparkles"></i></div>
+                <h4>Smart Recommendations</h4>
+                <p>Discover similar restaurants using content-based machine learning.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="map-pin"></i></div>
+                <h4>Location Filtering</h4>
+                <p>Filter recommendations within a preferred Bengaluru neighbourhood.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="star"></i></div>
+                <h4>Rating Filtering</h4>
+                <p>Set a minimum star rating to only see quality-assured picks.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="indian-rupee"></i></div>
+                <h4>Budget Filtering</h4>
+                <p>Set a maximum cost for two so every result fits your wallet.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="target"></i></div>
+                <h4>Personalized Ranking</h4>
+                <p>Restaurants are ranked by a combined recommendation score, not just ratings.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-card-icon"><i data-lucide="external-link"></i></div>
+                <h4>Zomato Discovery</h4>
+                <p>Jump to a restaurant's Zomato page whenever a valid URL is available.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECHNOLOGY -->
+    <div class="about-tech">
+        <h2 class="about-section-heading">Built with</h2>
+        <div class="tech-pills-wrap">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Pandas</span>
+            <span class="tech-pill">NumPy</span>
+            <span class="tech-pill">Scikit-learn</span>
+            <span class="tech-pill tech-pill-accent">TF-IDF</span>
+            <span class="tech-pill tech-pill-accent">Cosine Similarity</span>
+            <span class="tech-pill">Flask</span>
+            <span class="tech-pill">HTML</span>
+            <span class="tech-pill">CSS</span>
+            <span class="tech-pill">JavaScript</span>
+        </div>
+    </div>
+
+    <!-- CREATOR -->
+    <div class="about-creator">
+        <div class="creator-card">
+            <div class="creator-avatar"><i data-lucide="user"></i></div>
+            <h2>Built by Ankit Govind Pardeshi</h2>
+            <p class="creator-role">AI &amp; Data Science Student &nbsp;•&nbsp; Developer &nbsp;•&nbsp; Data &amp; ML Enthusiast</p>
+            <div class="creator-bio">
+                <p>BangaBites was designed and developed by Ankit Govind Pardeshi as a machine-learning and data-driven restaurant recommendation project focused on Bengaluru's food ecosystem.</p>
+                <p class="creator-quote">"I enjoy building practical projects that combine data, machine learning and thoughtful user experiences."</p>
+            </div>
+            <div class="creator-links">
+                <a href="https://www.linkedin.com/in/ankitpardeshi05" target="_blank" rel="noopener noreferrer" class="creator-btn creator-btn-dark">
+                    <i data-lucide="linkedin"></i> LinkedIn
+                </a>
+                <a href="https://github.com/Ankitpardeshiii" target="_blank" rel="noopener noreferrer" class="creator-btn creator-btn-dark">
+                    <i data-lucide="github"></i> GitHub
+                </a>
+                <a href="https://ankitpardeshi.xyz" target="_blank" rel="noopener noreferrer" class="creator-btn creator-btn-outline">
+                    Portfolio <i data-lucide="external-link"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLOSING QUOTE -->
+    <div class="about-closing">
+        <div class="closing-inner">
+            <div class="closing-quote-mark">"</div>
+            <h2>Data should help you decide.</h2>
+            <p>BangaBites brings together restaurant data and machine learning to turn thousands of choices into a shortlist that feels easier to explore.</p>
+        </div>
+    </div>
+
+</section><!-- /about -->
+
+<!-- =============================================
+     FOOTER
+     ============================================= -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <img src="{{ url_for('static', filename='assets/bangabites-logo.svg') }}" alt="BangaBites" class="footer-logo">
+        <p class="footer-tagline">Smart Restaurant Discovery for Bengaluru</p>
+        <p class="footer-stack">Built with Python &nbsp;•&nbsp; Flask &nbsp;•&nbsp; Scikit-learn &nbsp;•&nbsp; TF-IDF &nbsp;•&nbsp; Cosine Similarity</p>
+        <div class="footer-divider"></div>
+        <p class="footer-credit">Made by <strong>Ankit Govind Pardeshi</strong></p>
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/in/ankitpardeshi05" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/Ankitpardeshiii" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://ankitpardeshi.xyz" target="_blank" rel="noopener noreferrer">Portfolio</a>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

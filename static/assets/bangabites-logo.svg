@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <path fill="#E23744" d="M50 15C36 15 25 26 25 40c0 19 25 45 25 45s25-26 25-45C75 26 64 15 50 15z"/>
+  <path fill="#FFFDFC" d="M40 28a1.5 1.5 0 00-1.5 1.5V37c0 2 1.5 3.5 3.5 3.5V52h2V40.5c2 0 3.5-1.5 3.5-3.5v-7.5a1.5 1.5 0 00-1.5-1.5h-1v6h-1v-6h-1.5v6h-1v-6h-1.5z"/>
+  <path fill="#FFFDFC" d="M60 28c-2.5 0-4.5 2.5-4.5 6s2 6 4.5 6V52h2V40c2.5 0 4.5-2.5 4.5-6s-2-6-4.5-6z"/>
+  <text x="88" y="60" font-family="'Inter', sans-serif" font-weight="800" font-size="44" fill="#1F2937" letter-spacing="-1.2">Banga<tspan fill="#E23744">Bites</tspan></text>
+</svg>
